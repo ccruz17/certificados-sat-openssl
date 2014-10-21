@@ -169,9 +169,9 @@ class Certificados{
 			$salida = shell_exec('openssl x509 -in '.$nombreCerPem.' -noout -startdate 2>&1');
 			$salida = trim(str_replace('notBefore=', '', $salida));
 			$info_preg = array();
-			preg_match('#([A-z]{3})  ([0-9]{1,2}) ([0-2][0-9]:[0-5][0-9]:[0-5][0-9]) ([0-9]{4})#',
+			$salida = str_replace('  ', ' ', $salida);
+			preg_match('#([A-z]{3}) ([0-9]{1,2}) ([0-2][0-9]:[0-5][0-9]:[0-5][0-9]) ([0-9]{4})#',
 			$salida, $info_preg);
-			
 			if(!empty($info_preg)){
 				$fecha = $info_preg[2].'-'.$info_preg[1].'-'.$info_preg[4].' '.$info_preg[3];
 				$this->_estableceError(1, null, array('fecha' => $fecha));
@@ -200,9 +200,9 @@ class Certificados{
 		if (file_exists($nombreCerPem)){
 			$salida = shell_exec('openssl x509 -in '.$nombreCerPem.' -noout -enddate 2>&1');
 			$salida = str_replace('notAfter=', '', $salida );
-			echo $salida;
 			$info_preg = array();
-			preg_match('#([A-z]{3})  ([0-9]{1,2}) ([0-2][0-9]:[0-5][0-9]:[0-5][0-9]) ([0-9]{4}).*#',
+			$salida = str_replace('  ', ' ', $salida);
+			preg_match('#([A-z]{3}) ([0-9]{1,2}) ([0-2][0-9]:[0-5][0-9]:[0-5][0-9]) ([0-9]{4})#',
 			$salida,$info_preg);
 			if(!empty($info_preg)){
 				$fecha =  $info_preg[2].'-'.$info_preg[1].'-'.$info_preg[4].' '.$info_preg[3];
